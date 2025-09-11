@@ -27,16 +27,20 @@ local on_attach = function(client, bufnr)
 	nmap("<leader>ca", vim.lsp.buf.code_action, "Code action")
 
 	nmap("[d", function()
-		vim.lsp.diagnostic.jump({ count = -1 })
+		vim.diagnostic.jump({ count = -1 })
 	end, "Prev diagnostic")
 
 	nmap("]d", function()
-		vim.lsp.diagnostic.jump({ count = 1 })
+		vim.diagnostic.jump({ count = 1 })
 	end, "Next diagnostic")
 
 	nmap("<leader>f", function()
 		vim.lsp.buf.format({ async = true })
 	end, "Format buffer")
+
+	nmap("<leader>@", function()
+		require("telescope.builtin").lsp_document_symbols({ symbols = { "function" } })
+	end, "List all function in file")
 
 	if client.name == "tsserver" then
 		client.server_capabilities.documentFormattingProvider = false

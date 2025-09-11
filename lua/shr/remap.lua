@@ -6,6 +6,10 @@ vim.keymap.set("n", "<leader>y", '"+y')
 vim.keymap.set("v", "<leader>y", '"+y')
 vim.keymap.set("n", "<leader>Y", '"+Y')
 
+--- pasting from system clipboard
+vim.keymap.set("n", "<leader>p", '"+p')
+vim.keymap.set("n", "<leader>P", '"+P')
+
 -- Buffers
 vim.keymap.set("n", "<leader>bd", ":bd<CR>", { silent = true, desc = "Close buffer" })
 vim.keymap.set("n", "<leader>x", ":bd!<CR>", { silent = true, desc = "Force Close buffer" })
@@ -24,6 +28,10 @@ vim.keymap.set("n", "<leader>wk", "<C-w><C-k>", { silent = true, desc = "Switch 
 vim.keymap.set("n", "<leader>wj", "<C-w><C-j>", { silent = true, desc = "Switch to window down" })
 vim.keymap.set("n", "<leader>wl", "<C-w><C-l>", { silent = true, desc = "Switch to left right" })
 
+-- File editing
+vim.keymap.set("n", "<leader>s", "<CMD>w<CR>", { silent = true, desc = "Save file changes" })
+vim.keymap.set({ "n", "v" }, "<leader>aa", "<esc>ggVG", { silent = true, desc = "Select all" })
+
 --- Reloading Nvim
 function ReloadConfig()
 	for name, _ in pairs(package.loaded) do
@@ -38,10 +46,6 @@ end
 
 vim.keymap.set("n", "<leader>r", ReloadConfig, { desc = "Reload config" })
 
-vim.keymap.set("n", "@", function()
-	require("telescope.builtin").lsp_document_symbols({ symbols = { "function" } })
-end, { desc = "Search functions in current file", silent = true })
-
 --- Forcing to use hjkl
 vim.keymap.set({ "n", "v" }, "<Up>", '<cmd>echo "Use k"<CR>', { noremap = true })
 vim.keymap.set({ "n", "v" }, "<Down>", '<cmd>echo "Use j"<CR>', { noremap = true })
@@ -49,8 +53,8 @@ vim.keymap.set({ "n", "v" }, "<Left>", '<cmd>echo "Use h"<CR>', { noremap = true
 vim.keymap.set({ "n", "v" }, "<Right>", '<cmd>echo "Use l"<CR>', { noremap = true })
 
 -- Terminal Remapping
-vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]], { noremap = true }) -- switch to normal when hit esc
+vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]], { noremap = true })
 vim.keymap.set("n", "<leader>t", function()
-	vim.cmd("tabnew") -- create a new tab
-	vim.cmd("terminal") -- open terminal inside it
+	vim.cmd("tabnew")
+	vim.cmd("terminal")
 end, { desc = "Open terminal in new tab" })
