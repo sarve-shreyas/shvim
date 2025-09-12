@@ -4,6 +4,8 @@ if not ok then
 	return
 end
 
+local remaps = require("util.remaps")
+
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 local ok_cmp, cmp_lsp = pcall(require, "cmp_nvim_lsp")
 if ok_cmp then
@@ -15,9 +17,8 @@ local on_attach = function(client, bufnr)
 		if desc then
 			desc = "LSP: " .. desc
 		end
-		vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
+		remaps.nomap( keys, func, { buffer = bufnr, desc = desc })
 	end
-
 	nmap("K", vim.lsp.buf.hover, "Hover docs")
 	nmap("gd", vim.lsp.buf.definition, "Goto definition")
 	nmap("gD", vim.lsp.buf.declaration, "Goto declaration")
@@ -25,13 +26,14 @@ local on_attach = function(client, bufnr)
 	nmap("gi", vim.lsp.buf.implementation, "Goto implementation")
 	nmap("<leader>rn", vim.lsp.buf.rename, "Rename symbol")
 	nmap("<leader>ca", vim.lsp.buf.code_action, "Code action")
+	nmap("gf", vim.diagnostic.setloclist, "Open current buffer diagnostic in location list")
 
 	nmap("[d", function()
-		vim.diagnostic.jump({ count = -1 })
+		vim.diagnostic.jump({ count = -1, float = true })
 	end, "Prev diagnostic")
 
 	nmap("]d", function()
-		vim.diagnostic.jump({ count = 1 })
+		vim.diagnostic.jump({ count = 1, float = true })
 	end, "Next diagnostic")
 
 	nmap("<leader>f", function()
@@ -102,16 +104,15 @@ lspconfig.eslint.setup({
 	capabilities = capabilities,
 	on_attach = function(client, bufnr)
 		on_attach(client, bufnr)
-
-		-- Auto-fix on save
-		vim.api.nvim_create_autocmd("BufWritePre", {
-			buffer = bufnr,
-			command = "EslintFixAll",
-		})
 	end,
 })
 
 lspconfig.jsonls.setup({
+	capabilities = capabilities,
+	on_attach = on_attach,
+})
+
+lspconfig.basedpyright.setup({
 	capabilities = capabilities,
 	on_attach = on_attach,
 })

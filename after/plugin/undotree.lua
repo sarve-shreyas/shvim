@@ -1,1 +1,5 @@
-vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle)
+-- Undotree Configs
+
+local remaps = require("util.remaps")
+
+remaps.nomap("<leader>u", vim.cmd.UndotreeToggle)
