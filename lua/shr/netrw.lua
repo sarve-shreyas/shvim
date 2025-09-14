@@ -3,6 +3,10 @@
 --- Put cursor to opened file
 --- Remember
 
+local M = {
+    splitSize = 40
+}
+
 local log = require("util.log")
 
 -- setting the listing style to 3
@@ -99,6 +103,30 @@ local closeBufferAndWindow = function(T)
     log.info("Closed our netrw buffer & window")
 end
 
+--- Open a window for netrw buffer
+--- return the windowId
+--- return nil in case of errors
+--- @return integer|nil
+local openSplitWindow = function()
+    local cmd = "topleft" .. " " .. M.splitSize .. "vsplit"
+    vim.cmd(cmd)
+    local win = vim.api.nvim_get_current_win()
+    return win
+end
+
+--- Open a netrw buffer in given window
+--- return bufferId
+--- return nil in case of errors
+--- @param win integer
+--- @return integer|nil
+local openNetrwBuffer = function(win)
+    local cmd = "Ex"
+    vim.api.nvim_set_current_win(win)
+    vim.cmd(cmd)
+    local bufnr = vim.api.nvim_get_current_buf()
+    return bufnr
+end
+
 --- Open netrw window
 --- Save launchwin - window from which netrw explorer launched
 --- Save launchtab - tab from which netrw exploreer launched
@@ -110,10 +138,8 @@ local openNetrwWindow = function()
     _G.netrw_state.have_buffer = true
     _G.netrw_state.launchwin = vim.api.nvim_get_current_win()
     _G.netrw_state.launchtab = vim.api.nvim_get_current_tabpage()
-    vim.cmd("40vsplit")
-    _G.netrw_state.win = vim.api.nvim_get_current_win()
-    vim.cmd("Ex")
-    _G.netrw_state.bufnr = vim.api.nvim_get_current_buf()
+    _G.netrw_state.win = openSplitWindow()
+    _G.netrw_state.bufnr = openNetrwBuffer(_G.netrw_state.win)
     log.info("Opened Netrw Window")
     releaseLock()
 end
