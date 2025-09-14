@@ -47,14 +47,13 @@ local netrw_default_state = {
 }
 
 -- Setting up settings specific to netrw
--- buffer specific settings so should be called after buffer has been set-uped
 local setupNetrwExplorerSettings = function()
-    vim.b.netrw_liststyle = M.ui_settings.netrw_liststyle
+    vim.g.netrw_liststyle = M.ui_settings.netrw_liststyle
 end
 
 --- Cleaning up settings specific to netrw
 local cleanUpNetrwExplorerSettings = function()
-    vim.b.netrw_liststyle = default_setting.netrw_liststyle
+    vim.g.netrw_liststyle = default_setting.netrw_liststyle
 end
 
 --- Setting up settings of UI
@@ -171,9 +170,9 @@ end
 --- @return integer|nil
 local openNetrwBuffer = function(win)
     local cmd = "Ex"
-    vim.api.nvim_set_current_win(win)
+    local bufnr = vim.api.nvim_create_buf(false, false)
+    vim.api.nvim_win_set_buf(win, bufnr)
     vim.cmd(cmd)
-    local bufnr = vim.api.nvim_get_current_buf()
     return bufnr
 end
 
@@ -185,13 +184,14 @@ end
 --- Save bufnr - netrw buffer
 local openNetrwWindow = function()
     acquireLock()
+    setupAllSettings()
     _G.netrw_state.have_buffer = true
     _G.netrw_state.launchwin = vim.api.nvim_get_current_win()
     _G.netrw_state.launchtab = vim.api.nvim_get_current_tabpage()
     _G.netrw_state.win = openSplitWindow()
     _G.netrw_state.bufnr = openNetrwBuffer(_G.netrw_state.win)
+    vim.api.nvim_set_current_win(_G.netrw_state.win)
     log.info("Opened Netrw Window")
-    setupAllSettings()
     releaseLock()
 end
 
@@ -269,12 +269,6 @@ vim.api.nvim_create_autocmd("TabLeave", {
         end
     end
 })
---- User command to Open/Close Explorer
---- Will be used in keymapping
-vim.api.nvim_create_user_command("ToggleNetrwExplorer",
-    toggleNetrwExplorer,
-    {}
-)
 --- reset the UI settings
 vim.api.nvim_create_autocmd("WinLeave", {
     callback = function()
@@ -296,4 +290,11 @@ vim.api.nvim_create_autocmd("WinEnter", {
         end
     end
 })
+
+--- User command to Open/Close Explorer
+--- Will be used in keymapping
+vim.api.nvim_create_user_command("ToggleNetrwExplorer",
+    toggleNetrwExplorer,
+    {}
+)
 
