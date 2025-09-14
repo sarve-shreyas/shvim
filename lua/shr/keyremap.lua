@@ -6,8 +6,8 @@ local vimap = remaps.vimap
 local inmap = remaps.inmap
 local temap = remaps.temap
 
--- Open Explorer
-nomap("<leader>pv", "<Cmd>Explore<CR>", { silent = true, desc = "Open File explorer" })
+--- Open File Explorer
+nomap("<leader>pv", "<CMD>ToggleNetrwExplorer<CR>", { silent = true, desc = "Open File explorer" })
 
 --- coying to system clipboard------
 nomap("<leader>y", '"+y', { silent = true, desc = "Copy to selection clipboard" })
@@ -76,7 +76,7 @@ nomap("<C-t>", openTerminalNewTab, { desc = "Open terminal in new tab" })
 
 --- Tab mappings
 map({ "n", "v" }, "gt", "<CMD>tabnext<CR>", { silent = true, desc = "Switch to next tab", noremap = true })
-map({ "n", "v" }, "gT", "<CMD>tabprevious", { silent = true, desc = "Switch to previous tab", noremap = true })
+map({ "n", "v" }, "gT", "<CMD>tabprevious<CR>", { silent = true, desc = "Switch to previous tab", noremap = true })
 map({ "n", "v" }, "<leader>t", "<CMD>tabnew<CR>", { silent = true, desc = "Open New tab" })
 map({ "n", "v", "t" }, "<C-0>", "<CMD>tabclose<CR>", { silent = true, desc = "Close current tab" })
 
@@ -87,3 +87,4 @@ nomap('"', "<CMD>cprevious<CR>", { silent = true, desc = "Previous line in quick
 --- Location list navigations
 nomap(")", "<CMD>lnext<CR>", { silent = true, desc = "Next line in location list" })
 nomap("(", "<CMD>lprevious<CR>", { silent = true, desc = "Previous line in location list" })
+
