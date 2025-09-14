@@ -113,3 +113,4 @@ vim.api.nvim_create_autocmd({ "ModeChanged", "BufEnter", "BufWritePost", "DirCha
 		vim.cmd("redrawstatus")
 	end,
 })
+

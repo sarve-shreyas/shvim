@@ -6,16 +6,6 @@ local _M = {
         lua = true
     }
 }
----- This auto cmd will open any help in new tab
-vim.api.nvim_create_autocmd("BufEnter", {
-    group = evendead_group_autocmd,
-    callback = function()
-        if vim.bo.filetype == "help" then
-            vim.cmd("wincmd T")
-        end
-    end,
-})
-
 -- disable line numbering in terminal mode
 vim.api.nvim_create_autocmd("TermOpen", {
     callback = function()
@@ -36,6 +26,7 @@ vim.api.nvim_create_autocmd({ "BufWinEnter", "WinEnter" }, {
     end,
     group = evendead_group_autocmd,
 })
+
 -- open new terminal in split window rather than refering to same buffer
 vim.api.nvim_create_autocmd("WinNew", {
     nested = true,
@@ -67,6 +58,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 -- setup foling using treesitter
 vim.api.nvim_create_autocmd("FileType", {
     pattern = "json",
+    group = evendead_group_autocmd,
     callback = function()
         vim.opt_local.foldmethod = "expr"
         vim.opt_local.foldexpr = "nvim_treesitter#foldexpr()"

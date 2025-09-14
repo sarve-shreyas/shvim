@@ -1,1 +1,2 @@
+vim.cmd("wincmd T")
 
