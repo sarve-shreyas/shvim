@@ -197,7 +197,14 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
     end,
     group = netrw_group
 })
-
+--- Close the opened Netrw Explorer before switching tab
+vim.api.nvim_create_autocmd("TabLeave", {
+    callback = function()
+        if _G.netrw_state.have_buffer then
+            closeBufferAndWindow()
+        end
+    end
+})
 --- User command to Open/Close Explorer
 --- Will be used in keymapping
 vim.api.nvim_create_user_command("ToggleNetrwExplorer",
