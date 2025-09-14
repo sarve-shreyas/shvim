@@ -6,7 +6,9 @@ require("shr.set")
 require("shr.keyremap")
 --- Custom status line
 require("shr.statusline")
-
+--- netrw
+require("shr.netrw")
 
 -- autocmds
 require("shr.autocmd")
+
