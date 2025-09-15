@@ -10,13 +10,12 @@ local temap = remaps.temap
 nomap("<leader>pv", "<CMD>ToggleNetrwExplorer<CR>", { silent = true, desc = "Open File explorer" })
 
 --- coying to system clipboard------
-nomap("<leader>y", '"+y', { silent = true, desc = "Copy to selection clipboard" })
-vimap("<leader>y", '"+y', { silent = true, desc = "Copy to selection clipboard" })
-nomap("<leader>Y", '"+Y', { silent = true, desc = "Copy line to clipboard" })
+nomap("<leader>yy", '"+y', { silent = true, desc = "Copy to selection clipboard" })
+vimap("<leader>yy", '"+y', { silent = true, desc = "Copy to selection clipboard" })
+nomap("<leader>YY", '"+Y', { silent = true, desc = "Copy line to clipboard" })
 
 --- pasting from system clipboard
-nomap("<leader>p", '"+p', { silent = true, desc = "Paste from clipboard" })
-nomap("<leader>P", '"+P', { silent = true, desc = "Paste from clipboard" })
+nomap("<leader>pp", '"+p', { silent = true, desc = "Paste from clipboard" })
 
 -- Buffers
 nomap("<leader>bd", ":bd<CR>", { silent = true, desc = "Close buffer" })
@@ -43,7 +42,7 @@ nomap("C-w>-", "<CMD>horizontal resize -5<CR>", { silent = true, desc = "Descrea
 nomap("C-w>+", "<CMD>horizontal resize +5<CR>", { silent = true, desc = "Increase window height by -2" })
 
 -- File editing
-nomap("<leader>s", "<CMD>w<CR>", { silent = true, desc = "Save file changes" })
+nomap("<leader>ss", "<CMD>w<CR>", { silent = true, desc = "Save file changes" })
 map({ "n", "v" }, "<leader>aa", "<esc>ggVG", { silent = true, desc = "Select all" })
 
 --- Reloading Nvim Configs
@@ -81,8 +80,8 @@ map({ "n", "v" }, "<leader>t", "<CMD>tabnew<CR>", { silent = true, desc = "Open 
 map({ "n", "v", "t" }, "<C-0>", "<CMD>tabclose<CR>", { silent = true, desc = "Close current tab" })
 
 --- Quickfix navigation
-nomap("'", "<CMD>cnext<CR>", { silent = true, desc = "Next line in quickfix" })
-nomap('"', "<CMD>cprevious<CR>", { silent = true, desc = "Previous line in quickfix" })
+nomap("0", "<CMD>cnext<CR>", { silent = true, desc = "Next line in quickfix" })
+nomap("9", "<CMD>cprevious<CR>", { silent = true, desc = "Previous line in quickfix" })
 
 --- Location list navigations
 nomap(")", "<CMD>lnext<CR>", { silent = true, desc = "Next line in location list" })
