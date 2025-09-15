@@ -11,6 +11,7 @@ local log = require("util.log")
 
 --- @class netrw_explorer_configs
 --- @field splitSize integer
+--- @field name string
 --- @field ui_settings ui_settings
 
 
@@ -18,6 +19,7 @@ local log = require("util.log")
 --- @type netrw_explorer_configs
 local M = {
     splitSize = 40,
+    name = "NetrwFileExplorer",
     ui_settings = {
         laststatus = 3,
         netrw_liststyle = 3
@@ -169,10 +171,13 @@ end
 --- @param win integer
 --- @return integer|nil
 local openNetrwBuffer = function(win)
-    local cmd = "Ex"
-    local bufnr = vim.api.nvim_create_buf(false, false)
-    vim.api.nvim_win_set_buf(win, bufnr)
+    local cmd = "Ex" .. vim.fn.getcwd()
+    vim.api.nvim_set_current_win(win)
+    -- local bufnr = vim.api.nvim_create_buf(false, false)
+    -- vim.api.nvim_buf_set_name(bufnr, M.name)
     vim.cmd(cmd)
+    local bufnr = vim.api.nvim_get_current_buf()
+    vim.api.nvim_win_set_buf(win, bufnr)
     return bufnr
 end
 
@@ -235,6 +240,7 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
         if vim.bo[ev.buf].filetype == "netrw" then
             return
         end
+        log.info("Buffer filetype"..vim.bo[ev.buf].filetype)
         -- Ignore when not in same tab
         if vim.api.nvim_get_current_tabpage() ~= _G.netrw_state.launchtab then
             return
