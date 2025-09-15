@@ -1,4 +1,4 @@
-vim.o.laststatus = 3
+-- vim.o.laststatus = 3
 
 local C = {
 	fg = "#e0e0e0",
