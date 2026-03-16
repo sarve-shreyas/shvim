@@ -62,10 +62,36 @@ vim.api.nvim_create_autocmd("VimEnter", {
     callback = restore_session,
 })
 
+vim.api.nvim_create_user_command("Qs", function()
+    save_session()
+    vim.cmd("q")
+end, {})
+
+vim.api.nvim_create_user_command("Qas", function()
+    save_session()
+    vim.cmd("qa")
+end, {})
+
+vim.api.nvim_create_user_command("Wqs", function()
+    vim.cmd("w")
+    save_session()
+    vim.cmd("q")
+end, {})
+
+vim.api.nvim_create_user_command("Wqas", function()
+    vim.cmd("wa")
+    save_session()
+    vim.cmd("qa")
+end, {})
+
+vim.api.nvim_create_autocmd("VimEnter", {
+    callback = restore_session,
+})
+
 vim.cmd([[
-cnoreabbrev <expr> qs  getcmdtype() == ':' && getcmdline() == 'qs'  ? 'SessionSave | q'   : 'qs'
-cnoreabbrev <expr> qas getcmdtype() == ':' && getcmdline() == 'qas' ? 'SessionSave | qa'  : 'qas'
-cnoreabbrev <expr> wqs getcmdtype() == ':' && getcmdline() == 'wqs' ? 'w | SessionSave | q'  : 'wqs'
-cnoreabbrev <expr> wqas getcmdtype() == ':' && getcmdline() == 'wqas' ? 'wa | SessionSave | qa' : 'wqas'
+cnoreabbrev <expr> qs getcmdtype() == ':' && getcmdline() == 'qs' ? 'Qs' : 'qs'
+cnoreabbrev <expr> qas getcmdtype() == ':' && getcmdline() == 'qas' ? 'Qas' : 'qas'
+cnoreabbrev <expr> wqs getcmdtype() == ':' && getcmdline() == 'wqs' ? 'Wqs' : 'wqs'
+cnoreabbrev <expr> wqas getcmdtype() == ':' && getcmdline() == 'wqas' ? 'Wqas' : 'wqas'
 ]])
 
