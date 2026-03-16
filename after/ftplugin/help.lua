@@ -1,2 +1,2 @@
-vim.cmd("wincmd T")
+-- vim.cmd("wincmd T")
 
