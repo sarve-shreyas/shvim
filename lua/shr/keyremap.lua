@@ -79,13 +79,8 @@ map({ "n", "v" }, "<leader>t", "<CMD>tabnew<CR>", { silent = true, desc = "Open 
 map({ "n", "v", "t" }, "<C-0>", "<CMD>tabclose<CR>", { silent = true, desc = "Close current tab" })
 
 --- Quickfix navigation
-<<<<<<< HEAD
-nomap("0", "<CMD>cnext<CR>", { silent = true, desc = "Next line in quickfix" })
-nomap("9", "<CMD>cprevious<CR>", { silent = true, desc = "Previous line in quickfix" })
-=======
 nomap("`", "<CMD>cnext<CR>", { silent = true, desc = "Next line in quickfix" })
 nomap('~', "<CMD>cprevious<CR>", { silent = true, desc = "Previous line in quickfix" })
->>>>>>> netrw-explorer
 
 --- Location list navigations
 nomap(")", "<CMD>lnext<CR>", { silent = true, desc = "Next line in location list" })
