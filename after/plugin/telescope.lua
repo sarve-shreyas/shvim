@@ -18,7 +18,18 @@ telescope.setup({
 })
 
 remap.nomap("<leader>pf", function()
-    builtin.find_files({ hidden = true })
+    builtin.find_files({
+        hidden = true,
+        file_ignore_patterns = {
+            "node_modules",
+            "%.git/",
+            "%.env",
+            "dist",
+            "build",
+            "env",
+            "venev"
+        },
+    })
 end, { desc = "Telescope find files" })
 
 remap.nomap("<leader>ps", function()
@@ -34,3 +45,4 @@ remap.nomap("<leader>bo", "<cmd>Telescope buffers<CR>", { desc = "Find Buffers" 
 remap.nomap("<leader>sf", function()
     require("telescope.builtin").lsp_document_symbols({ symbols = { "function" } })
 end, { desc = "Search functions in current file", silent = true })
+

@@ -6,8 +6,6 @@ local vimap = remaps.vimap
 local inmap = remaps.inmap
 local temap = remaps.temap
 
---- Open File Explorer
-nomap("<leader>pv", "<CMD>ToggleNetrwExplorer<CR>", { silent = true, desc = "Open File explorer" })
 
 --- coying to system clipboard------
 nomap("<leader>yy", '"+y', { silent = true, desc = "Copy to selection clipboard" })
@@ -19,11 +17,11 @@ nomap("<leader>pp", '"+p', { silent = true, desc = "Paste from clipboard" })
 
 -- Buffers
 nomap("<leader>bd", ":bd<CR>", { silent = true, desc = "Close buffer" })
-nomap("<leader>x", ":bd!<CR>", { silent = true, desc = "Force Close buffer" })
+nomap("<leader>x", ":bp | bd #<CR>", { silent = true, desc = "Close buffer, keep split" })
 
 --- Switching buffers
-nomap("<Tab>", ":bnext<CR>", { silent = true, desc = "Next buffer" })
-nomap("<S-Tab>", ":bprevious<CR>", { silent = true, desc = "Prev buffer" })
+nomap("<C-/>", ":bnext<CR>", { silent = true, desc = "Next buffer" })
+nomap("<C-\\>", ":bprevious<CR>", { silent = true, desc = "Prev buffer" })
 nomap("<leader>`", ":b#<CR>", { silent = true, desc = "Switch to last buffer" })
 
 -- Spit panes
@@ -33,7 +31,8 @@ nomap("<leader>sh", ":split<CR>", { silent = true, desc = "Open horizontal split
 nomap("<C-w><C-h>", "<C-w><C-h>", { silent = true, desc = "Switch to window left" })
 nomap("<C-w><C-k>", "<C-w><C-k>", { silent = true, desc = "Switch to window up" })
 nomap("<C-w><C-j>", "<C-w><C-j>", { silent = true, desc = "Switch to window down" })
-nomap("<C-w><C-l>", "<C-w><C-l>", { silent = true, desc = "Switch to left right" })
+nomap("<C-w><C-l>", "<C-w><C-l>", { silent = true, desc = "Switch to window right" })
+nomap("<leader>w", ":x<CR>", { silent = true, desc = "Close current window"})
 
 -- Resizing Panes
 nomap("<C-w>.", "<CMD>vertical resize +5<CR>", { silent = true, desc = "Increate window width by +2" })
@@ -80,10 +79,24 @@ map({ "n", "v" }, "<leader>t", "<CMD>tabnew<CR>", { silent = true, desc = "Open 
 map({ "n", "v", "t" }, "<C-0>", "<CMD>tabclose<CR>", { silent = true, desc = "Close current tab" })
 
 --- Quickfix navigation
+<<<<<<< HEAD
 nomap("0", "<CMD>cnext<CR>", { silent = true, desc = "Next line in quickfix" })
 nomap("9", "<CMD>cprevious<CR>", { silent = true, desc = "Previous line in quickfix" })
+=======
+nomap("`", "<CMD>cnext<CR>", { silent = true, desc = "Next line in quickfix" })
+nomap('~', "<CMD>cprevious<CR>", { silent = true, desc = "Previous line in quickfix" })
+>>>>>>> netrw-explorer
 
 --- Location list navigations
 nomap(")", "<CMD>lnext<CR>", { silent = true, desc = "Next line in location list" })
 nomap("(", "<CMD>lprevious<CR>", { silent = true, desc = "Previous line in location list" })
+
+--- Folding 
+vim.keymap.set("n", "zR", "zR", { desc = "Open all folds" })
+vim.keymap.set("n", "zM", "zM", { desc = "Close all folds" })
+vim.keymap.set("n", "zr", "zr", { desc = "Open folds one level" })
+vim.keymap.set("n", "zm", "zm", { desc = "Close folds one level" })
+vim.keymap.set("n", "za", "za", { desc = "Toggle fold" })
+vim.keymap.set("n", "zo", "zo", { desc = "Open fold" })
+vim.keymap.set("n", "zc", "zc", { desc = "Close fold" })
 

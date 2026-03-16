@@ -5,6 +5,7 @@
 
 local log = require("util.log")
 
+
 --- @class ui_settings
 --- @field netrw_liststyle integer
 --- @field laststatus integer
