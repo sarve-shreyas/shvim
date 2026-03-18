@@ -44,5 +44,7 @@ return require("packer").startup(function(use)
 
     -- gitsign --
     use("lewis6991/gitsigns.nvim")
+    use ("sindrets/diffview.nvim" )
+    use ("nyoom-engineering/oxocarbon.nvim")
 end)
 

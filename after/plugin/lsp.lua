@@ -211,7 +211,6 @@ lspconfig.eslint.setup({
         nodePath = "/opt/homebrew/lib/node_modules",
         workingDirectory = { mode = "auto" },
     },
-
     handlers = {
         ["workspace/diagnostic/refresh"] = function() end,
         ["eslint/noConfig"] = function() end,
