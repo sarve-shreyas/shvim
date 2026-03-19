@@ -4,11 +4,6 @@ require("shr.packer")
 require("shr.set")
 -- keymapping
 require("shr.keyremap")
---- Custom status line
-require("shr.statusline")
---- netrw
-require("shr.netrw")
-
 -- autocmds
 require("shr.autocmd")
 

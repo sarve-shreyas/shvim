@@ -46,5 +46,9 @@ return require("packer").startup(function(use)
     use("lewis6991/gitsigns.nvim")
     use ("sindrets/diffview.nvim" )
     use ("nyoom-engineering/oxocarbon.nvim")
+    use {
+        'nvim-lualine/lualine.nvim',
+        requires = { 'nvim-tree/nvim-web-devicons', opt = true }
+    }
 end)
 
