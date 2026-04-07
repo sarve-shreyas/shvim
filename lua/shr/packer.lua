@@ -28,7 +28,6 @@ return require("packer").startup(function(use)
     -- nvim game by ThePrimeagencomple
     use("ThePrimeagen/vim-be-good")
     --- local file explorer plugin
-    use({ "~/.config/mNetrw" })
 
     use({
         "nvim-neo-tree/neo-tree.nvim",
@@ -44,11 +43,20 @@ return require("packer").startup(function(use)
 
     -- gitsign --
     use("lewis6991/gitsigns.nvim")
-    use ("sindrets/diffview.nvim" )
-    use ("nyoom-engineering/oxocarbon.nvim")
+    use("sindrets/diffview.nvim")
+    use("nyoom-engineering/oxocarbon.nvim")
     use {
         'nvim-lualine/lualine.nvim',
         requires = { 'nvim-tree/nvim-web-devicons', opt = true }
+    }
+    use("nvim-treesitter/nvim-treesitter-context")
+    use("~/.config/nvim-plugins/UI")
+    use {
+        "olimorris/codecompanion.nvim",
+        requires = {
+            "nvim-lua/plenary.nvim",
+            "nvim-treesitter/nvim-treesitter",
+        }
     }
 end)
 
