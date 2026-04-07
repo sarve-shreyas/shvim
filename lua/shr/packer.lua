@@ -7,7 +7,7 @@ return require("packer").startup(function(use)
     -- Telescope
     use({ "nvim-telescope/telescope.nvim", tag = "0.1.8", requires = { { "nvim-lua/plenary.nvim" } } })
     -- Treesitter
-    use("nvim-treesitter/nvim-treesitter", { run = ":TSUpdate" })
+    use { "nvim-treesitter/nvim-treesitter", branch="master",  run = ":TSUpdate" } 
     -- Undotree
     use("mbbill/undotree")
     -- Nvim lsp
