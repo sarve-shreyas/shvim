@@ -45,7 +45,6 @@ local function init()
     loadStateToGlobal(DEFAULT_TERMINAL_STATE)
     --- Load state from global to local variable
     return loadStateFromGlobal()
-
 end
 local function toggleTerminal()
     local terminalState = init()
@@ -69,5 +68,5 @@ local function toggleTerminal()
 end
 
 vim.api.nvim_create_user_command("ToggleTerminal", toggleTerminal, {})
-remap.nomap("<C-t>", "<CMD>ToggleTerminal<CR>", {desc = "Toggle Bottom Terminal", silent = false})
+remap.nomap("<C-t>", "<CMD>ToggleTerminal<CR>", { desc = "Toggle Bottom Terminal", silent = false })
 
