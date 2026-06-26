@@ -218,7 +218,7 @@ claudecode.setup({
         end
         -- Otherwise open a side-by-side split beside nvim, inject the connection
         -- env (tmux panes don't inherit it), and tag the new pane with our port.
-        local parts = { "tmux", "split-window", "-h" }
+        local parts = { "tmux", "split-window", "-h", "-l", "40%" }
         if vim.env.TMUX_PANE and vim.env.TMUX_PANE ~= "" then
           vim.list_extend(parts, { "-t", vim.env.TMUX_PANE })
         end
