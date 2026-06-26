@@ -34,11 +34,46 @@ nomap("<C-w><C-j>", "<C-w><C-j>", { silent = true, desc = "Switch to window down
 nomap("<C-w><C-l>", "<C-w><C-l>", { silent = true, desc = "Switch to window right" })
 nomap("<leader>w", ":x<CR>", { silent = true, desc = "Close current window"})
 
--- Resizing Panes
-nomap("<C-w>.", "<CMD>vertical resize +5<CR>", { silent = true, desc = "Increate window width by +2" })
-nomap("<C-w>,", "<CMD>vertical resize -5<CR>", { silent = true, desc = "Increate window width by +2" })
-nomap("C-w>-", "<CMD>horizontal resize -5<CR>", { silent = true, desc = "Descrease window height by -2" })
-nomap("C-w>+", "<CMD>horizontal resize +5<CR>", { silent = true, desc = "Increase window height by -2" })
+-- Resizing Panes (one-shot taps)
+nomap("<C-w>.", "<CMD>vertical resize +5<CR>", { silent = true, desc = "Window wider" })
+nomap("<C-w>,", "<CMD>vertical resize -5<CR>", { silent = true, desc = "Window narrower" })
+nomap("<C-w>+", "<CMD>resize +5<CR>", { silent = true, desc = "Window taller" })
+nomap("<C-w>-", "<CMD>resize -5<CR>", { silent = true, desc = "Window shorter" })
+
+-- tmux-style resize submode: <C-w>r, then tap h/j/k/l or arrows to resize
+-- repeatedly; = equalizes; q/<Esc>/any other key exits. Robust inside tmux
+-- (uses plain keys, not Ctrl/Alt+arrows which tmux tends to intercept).
+local function resize_mode()
+    local step = 3
+    local t = function(s) return vim.api.nvim_replace_termcodes(s, true, false, true) end
+    local LEFT, RIGHT, UP, DOWN = t("<Left>"), t("<Right>"), t("<Up>"), t("<Down>")
+    local hint = "-- RESIZE --  h/<- narrower  l/-> wider  k/up taller  j/down shorter  = equalize  q/Esc exit"
+    while true do
+        vim.cmd("redraw")
+        vim.api.nvim_echo({ { hint, "ModeMsg" } }, false, {})
+        local ok, ch = pcall(vim.fn.getcharstr)
+        if not ok then
+            break
+        end
+        if ch == "h" or ch == LEFT then
+            pcall(vim.cmd, "vertical resize -" .. step)
+        elseif ch == "l" or ch == RIGHT then
+            pcall(vim.cmd, "vertical resize +" .. step)
+        elseif ch == "k" or ch == UP then
+            pcall(vim.cmd, "resize +" .. step)
+        elseif ch == "j" or ch == DOWN then
+            pcall(vim.cmd, "resize -" .. step)
+        elseif ch == "=" then
+            pcall(vim.cmd, "wincmd =")
+        else
+            break -- q, <Esc>, or any other key exits
+        end
+    end
+    vim.api.nvim_echo({ { "" } }, false, {})
+    vim.cmd("redraw")
+end
+
+nomap("<C-w>r", resize_mode, { silent = true, desc = "Resize mode (tmux-like)" })
 
 -- File editing
 nomap("<leader>ss", "<CMD>w<CR>", { silent = true, desc = "Save file changes" })

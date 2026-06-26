@@ -4,6 +4,9 @@ local nomap = require("util.remaps").nomap
 local neotree = require("neo-tree")
 neotree.setup({
     filesystem = {
+        -- Don't let neo-tree take over `nvim .`/`nvim <dir>`; that broke session
+        -- restore. Open the tree on demand with <leader>e / <leader>pv instead.
+        hijack_netrw_behavior = "disabled",
         file = {
             enabled = true,
             leave_dirs_open = true

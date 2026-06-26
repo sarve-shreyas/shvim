@@ -51,12 +51,9 @@ return require("packer").startup(function(use)
     }
     use("nvim-treesitter/nvim-treesitter-context")
     use("~/.config/nvim-plugins/UI")
-    use {
-        "olimorris/codecompanion.nvim",
-        requires = {
-            "nvim-lua/plenary.nvim",
-            "nvim-treesitter/nvim-treesitter",
-        }
-    }
+    -- Claude Code CLI integration (native diff-gate review workflow).
+    -- Pure Lua, zero deps with the "native" terminal provider. Config in
+    -- after/plugin/claudecode.lua.
+    use("coder/claudecode.nvim")
 end)
 
