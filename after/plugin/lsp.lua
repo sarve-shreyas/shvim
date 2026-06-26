@@ -307,6 +307,19 @@ vim.lsp.config("pyright", {
             })
         end
     end,
+    -- Belt-and-suspenders: re-detect after init and push the interpreter via
+    -- didChangeConfiguration (more reliable than before_init's settings alone).
+    on_init = function(client)
+        local py = find_venv_python(client.config.root_dir)
+        if py then
+            client.settings = vim.tbl_deep_extend("force", client.settings or {}, {
+                python = { pythonPath = py },
+            })
+            pcall(function()
+                client:notify("workspace/didChangeConfiguration", { settings = client.settings })
+            end)
+        end
+    end,
 })
 
 vim.lsp.enable("clangd")
