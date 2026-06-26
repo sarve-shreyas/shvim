@@ -107,6 +107,40 @@ local is_deno = function(root)
         or vim.uv.fs_stat(root .. "/deno.jsonc") ~= nil
 end
 
+-- Find the Python interpreter pyright should use, mirroring the user's
+-- `env_activate` shell function: prefer an already-activated venv
+-- ($VIRTUAL_ENV), else walk UP from the project dir looking for .venv / venv,
+-- else a Poetry-managed env (pyproject.toml + `poetry env info -p`). Returns nil
+-- if nothing is found (pyright falls back to system Python).
+local function find_venv_python(start)
+    local active = vim.env.VIRTUAL_ENV
+    if active and active ~= "" and vim.uv.fs_stat(active .. "/bin/python") then
+        return active .. "/bin/python"
+    end
+    local dir = start
+    while dir and dir ~= "" do
+        for _, d in ipairs({ ".venv", "venv" }) do
+            local p = dir .. "/" .. d .. "/bin/python"
+            if vim.uv.fs_stat(p) then
+                return p
+            end
+        end
+        if vim.uv.fs_stat(dir .. "/pyproject.toml") and vim.fn.executable("poetry") == 1 then
+            local res = vim.system({ "poetry", "env", "info", "-p" }, { cwd = dir, text = true }):wait()
+            local path = (res.code == 0) and vim.trim(res.stdout or "") or ""
+            if path ~= "" and vim.uv.fs_stat(path .. "/bin/python") then
+                return path .. "/bin/python"
+            end
+        end
+        local parent = vim.fs.dirname(dir)
+        if not parent or parent == dir then
+            break
+        end
+        dir = parent
+    end
+    return nil
+end
+
 local eslint_root = root_pattern(
     "eslint.config.js",
     "eslint.config.mjs",
@@ -246,9 +280,33 @@ vim.lsp.config("jsonls", {
 })
 
 vim.lsp.config("pyright", {
-    filetypes = {"python"},
+    filetypes = { "python" },
     capabilities = capabilities,
     on_attach = on_attach,
+    root_dir = function(bufnr, on_dir)
+        local fname = vim.api.nvim_buf_get_name(bufnr)
+        local root = root_pattern(
+            "pyproject.toml",
+            "setup.py",
+            "setup.cfg",
+            "requirements.txt",
+            "Pipfile",
+            ".venv",
+            "venv",
+            ".git"
+        )(fname)
+        on_dir(root or vim.fs.dirname(fname))
+    end,
+    -- Point pyright at the project's venv interpreter so venv-installed imports
+    -- resolve (no more false "missing import" red lines).
+    before_init = function(_, config)
+        local py = find_venv_python(config.root_dir)
+        if py then
+            config.settings = vim.tbl_deep_extend("force", config.settings or {}, {
+                python = { pythonPath = py },
+            })
+        end
+    end,
 })
 
 vim.lsp.enable("clangd")
